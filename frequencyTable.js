@@ -3,8 +3,6 @@ const { areEqual } = require("./areEqual");
 function frequencyTable(input) {
     const result = {};
     for (const elements of input) {
-        // if (!(elements in result)) result[elements] = 0;
-        // result[elements] += 1;
         result[elements] = (result[elements] ?? 0) + 1;
     }
     return result;
@@ -27,13 +25,14 @@ function main() {
         ["apple", "banana", "apple", "apple", "orange", "banana"],
     );
     test(
-        "exercise Example 2",
+        "frequency of numbers",
         {
-            apple: 3,
-            banana: 1,
-            orange: 2,
+            1: 3,
+            2: 1,
+            3: 3,
+            4: 1,
         },
-        ["apple", "orange", "apple", "apple", "orange", "banana"],
+        [1, 3, 1, 1, 3, 2, 3, 4],
     );
 }
 
