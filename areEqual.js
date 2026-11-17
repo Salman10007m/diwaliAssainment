@@ -40,4 +40,4 @@ function areEqual(value1, value2) {
     return areValuesEqual(value1, value2);
 }
 
-module.exports = { isEqual: areEqual };
+module.exports = { areEqual };

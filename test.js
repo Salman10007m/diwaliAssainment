@@ -289,4 +289,4 @@ function test(func, testCases) {
     console.log("NO OF TEST CASE:" + testCases.length);
 }
 
-test(a.isEqual, testCases);
+test(a.areEqual, testCases);
