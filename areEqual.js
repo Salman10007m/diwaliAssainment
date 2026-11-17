@@ -7,30 +7,37 @@ function isDeepEqual(value1, value2) {
         if (!(key in value2)) {
             return false;
         }
-        if (!isEqual(value1[key], value2[key])) return false;
+        if (!areEqual(value1[key], value2[key])) return false;
     }
-
     return true;
 }
 
-function isObject(value) {
-    return value !== null && !Array.isArray(value) && typeof value === "object";
+function areValuesEqual(value1, value2) {
+    return value1 === value2;
 }
 
-function areObjects(value1, value2) {
-    return isObject(value1) && isObject(value2);
+function type(value) {
+    if (Array.isArray(value)) return "array";
+    if (value === null) return "null";
+
+    return typeof value;
 }
 
-function areArrays(value1, value2) {
-    return Array.isArray(value1) && Array.isArray(value2);
+function areTypesEqual(value1, value2) {
+    return type(value1) === type(value2);
 }
 
-function isEqual(value1, value2) {
-    if (value1 === value2) return true;
-    if (areObjects(value1, value2) || areArrays(value1, value2)) {
-        return isDeepEqual(value1, value2);
+function areEqual(value1, value2) {
+    if (!areTypesEqual(value1, value2)) return false;
+
+    switch (type(value1)) {
+        case "array":
+            return isDeepEqual(value1, value2);
+        case "object":
+            return isDeepEqual(value1, value2);
     }
-    return false;
+
+    return areValuesEqual(value1, value2);
 }
 
-module.exports = { isEqual };
+module.exports = { isEqual: areEqual };
