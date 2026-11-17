@@ -25,14 +25,13 @@ function findTheRun(input) {
 
         if (hasDirectionChanged(previousDirection, currentDirection)) {
             allRuns.push(currentRun);
-            currentRun = [input[i + 1]];
+            currentRun = [];
             previousDirection = "unknown";
-        } else {
-            currentRun.push(input[i + 1]);
-            if (currentDirection !== "equal") {
-                previousDirection = currentDirection;
-            }
+        } else if (currentDirection !== "equal") {
+            previousDirection = currentDirection;
         }
+
+        currentRun.push(input[i + 1]);
     }
 
     allRuns.push(currentRun);
