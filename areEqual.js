@@ -35,9 +35,8 @@ function areEqual(value1, value2) {
             return areDeepEqual(value1, value2);
         case "object":
             return areDeepEqual(value1, value2);
-        default:
-            return areValuesEqual(value1, value2);
     }
+    return areValuesEqual(value1, value2);
 }
 
 module.exports = { areEqual };
