@@ -1,4 +1,4 @@
-function isDeepEqual(value1, value2) {
+function areDeepEqual(value1, value2) {
     if (Object.keys(value1).length !== Object.keys(value2).length) {
         return false;
     }
@@ -32,12 +32,12 @@ function areEqual(value1, value2) {
 
     switch (type(value1)) {
         case "array":
-            return isDeepEqual(value1, value2);
+            return areDeepEqual(value1, value2);
         case "object":
-            return isDeepEqual(value1, value2);
+            return areDeepEqual(value1, value2);
+        default:
+            return areValuesEqual(value1, value2);
     }
-
-    return areValuesEqual(value1, value2);
 }
 
 module.exports = { areEqual };

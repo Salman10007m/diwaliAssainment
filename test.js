@@ -1,292 +1,55 @@
-const a = require("./areEqual");
+const { areEqual } = require("./areEqual");
 
-const testCases = [
-    {
-        value1: NaN,
-        value2: NaN,
-        expected: false,
-        title: "both NaN should be unequal",
-    },
-    {
-        value1: undefined,
-        value2: undefined,
-        expected: true,
-        title: "both undefined should be equal",
-    },
-    {
-        value1: null,
-        value2: null,
-        expected: true,
-        title: "both null should be equal",
-    },
-    {
-        value1: null,
-        value2: 1,
-        expected: false,
-        title: "null and number should be unequal",
-    },
-    {
-        value1: undefined,
-        value2: 1,
-        expected: false,
-        title: "undefined and number should be unequal",
-    },
-    {
-        value1: NaN,
-        value2: 1,
-        expected: false,
-        title: "NaN and number should be unequal",
-    },
-    {
-        value1: 1,
-        value2: 1,
-        expected: true,
-        title: "same Number should be equal",
-    },
-    {
-        value1: 1,
-        value2: 2,
-        expected: false,
-        title: "unEqual Number should be unequal",
-    },
-    {
-        value1: "a",
-        value2: "a",
-        expected: true,
-        title: "Equal String should be equal",
-    },
-    {
-        value1: "a",
-        value2: "b",
-        expected: false,
-        title: "Unequal String should be unequal",
-    },
-    {
-        value1: "a",
-        value2: null,
-        expected: false,
-        title: "null and string should be unequal",
-    },
-    {
-        value1: "a",
-        value2: NaN,
-        expected: false,
-        title: "NaN and string should be unequal",
-    },
-    {
-        value1: "a",
-        value2: undefined,
-        expected: false,
-        title: "undefined and string should be unequal",
-    },
-    {
-        value1: 1,
-        value2: "1",
-        expected: false,
-        title: "string and number should be unequal",
-    },
-    {
-        value1: true,
-        value2: true,
-        expected: true,
-        title: "same boolean should be equal",
-    },
-    {
-        value1: true,
-        value2: false,
-        expected: false,
-        title: "different boolean should be unequal",
-    },
-    {
-        value1: true,
-        value2: 1,
-        expected: false,
-        title: "boolean and number should be unequal",
-    },
-    {
-        value1: true,
-        value2: null,
-        expected: false,
-        title: "boolean and null should be unequal",
-    },
-    {
-        value1: true,
-        value2: undefined,
-        expected: false,
-        title: "boolean and undefined should be unequal",
-    },
-    {
-        value1: true,
-        value2: NaN,
-        expected: false,
-        title: "boolean and NaN should be unequal",
-    },
-    {
-        value1: false,
-        value2: "a",
-        expected: false,
-        title: "boolean and string should be unequal",
-    },
-    {
-        value1: [],
-        value2: [],
-        expected: true,
-        title: "Empty array should be equal",
-    },
-    {
-        value1: null,
-        value2: [],
-        expected: false,
-        title: "null and array should be unequal",
-    },
-    {
-        value1: [],
-        value2: [1],
-        expected: false,
-        title: "empty and non empty array should be unequal",
-    },
-    {
-        value1: [1],
-        value2: [1],
-        expected: true,
-        title: "equal array should be equal",
-    },
-    {
-        value1: [{ a: 2 }],
-        value2: [{ a: 2 }],
-        expected: true,
-        title: "array containing same object should be equal",
-    },
-    {
-        value1: [{ a: 1 }],
-        value2: [{ a: 2 }],
-        expected: false,
-        title: "array containing different object should be unequal",
-    },
-    {
-        value1: [1, { a: 2 }],
-        value2: [1, { a: 2 }],
-        expected: true,
-        title: "array containg same object and number should be equal",
-    },
-    {
-        value1: [1, { a: 2 }],
-        value2: [3, { a: 3 }],
-        expected: false,
-        title: "array containg different object and number should be unequal",
-    },
-    {
-        value1: [[1, 2, [3]]],
-        value2: [[1, 2, [3]]],
-        expected: true,
-        title: "array containing same nested array should be equal",
-    },
-    {
-        value1: [[1, 2, [3]]],
-        value2: [[1, 2, [3, 2]]],
-        expected: false,
-        title: "array containing different nested array should be unequal",
-    },
-    {
-        value1: {},
-        value2: {},
-        expected: true,
-        title: "empty object should be equal",
-    },
-    {
-        value1: {},
-        value2: { a: 1 },
-        expected: false,
-        title: "empty object and non empty object should be unequal",
-    },
-    {
-        value1: null,
-        value2: {},
-        expected: false,
-        title: "null and object should be unequal",
-    },
-    {
-        value1: { a: 1 },
-        value2: { a: 1 },
-        expected: true,
-        title: "equal  objects should be equal",
-    },
-    {
-        value1: { a: 1 },
-        value2: { a: 2 },
-        expected: false,
-        title: "unequal  objects should be unequal",
-    },
-    {
-        value1: { 0: 1, 1: 2 },
-        value2: [1, 2],
-        expected: false,
-        title: "similar object and array should be unequal",
-    },
-    {
-        value1: { a: { b: 1 } },
-        value2: { a: { b: 1 } },
-        expected: true,
-        title: "equal nested object should be equal",
-    },
-    {
-        value1: { a: { b: 1 } },
-        value2: { a: { b: 2 } },
-        expected: false,
-        title: "unequal nested object should be unequal",
-    },
-    {
-        value1: { a: { b: [1, 2, [3]] } },
-        value2: { a: { b: [1, 2, [3]] } },
-        expected: true,
-        title: "equal nested object with nested array should be equal",
-    },
-    {
-        value1: { a: { b: [1, 2, [3]] } },
-        value2: { a: { c: [1, 2, [3]] } },
-        expected: false,
-        title: "unequal nested object with nested array should be unequal",
-    },
-    {
-        value1: { a: 1, b: 2 },
-        value2: { b: 2, a: 1 },
-        expected: true,
-        title: "same object in different order should be equal",
-    },
-    {
-        value1: [[1, 2, { a: 3 }]],
-        value2: [[1, 2, { a: 3 }]],
-        expected: true,
-        title: "array containing same nested array with object should be equal",
-    },
-    {
-        value1: [[1, 2, { a: 3 }]],
-        value2: [[1, 2, { a: 2 }]],
-        expected: false,
-        title: "array containing different nested array with object should be unequal",
-    },
-    {
-        value1: { a: undefined },
-        value2: { b: 1 },
-        expected: false,
-        title: "first object containing value as undefined should be unequal",
-    },
-    {
-        value1: { b: 1 },
-        value2: { a: undefined },
-        expected: false,
-        title: "second object containing value as undefined should be unequal",
-    },
-];
-
-function test(func, testCases) {
-    for (const testCase of testCases) {
-        const actual = func(testCase.value1, testCase.value2);
-        const passed = actual === testCase.expected ? "✅" : "❌";
-        console.log(passed, testCase.title);
-    }
-    console.log("-------------------------------------");
-    console.log("NO OF TEST CASE:" + testCases.length);
+function test(message, expected, a, b) {
+    const actual = areEqual(a, b);
+    const isPassed = expected === actual ? "✅" : "❌";
+    console.log(`${isPassed} | ${message}`);
 }
-
-test(a.areEqual, testCases);
+function integerEqualityTest() {
+    test("Same Number should be equal", true, 1, 1);
+    test("Different Number should be unequal", false, 2, 1);
+    test("Undefined and a number should be unequal", false, null, 1);
+    test("Null and a number should be unequal", false, null, 1);
+    test("NaN and a number should be unequal", false, NaN, 1);
+}
+function stringEqualityTest() {
+    test("Different string with same value should be equal", true, "a", "a");
+    test("Diff string with different value should be unequal", false, "b", "a");
+    test("Undefined and a string should be unequal", false, null, "a");
+    test("Null and a string should be unequal", false, null, "a");
+    test("NaN and a string should be unequal", false, NaN, "a");
+}
+function arrayEqualityTest() {
+    test("Two empty array should be equal", true, [], []);
+    test("Two non-empty array with same value should be equal", true, [1], [1]);
+    test(
+        "Two non-empty nested array should be equal",
+        true,
+        [[1, 2]],
+        [[1, 2]],
+    );
+    test("Empty array and non-empty array should be unequal", false, [1], []);
+    test("Undefined and a empty-array should be unequal", false, null, []);
+    test("Null and a empty-array should be unequal", false, null, []);
+    test("NaN and a empty-array should be unequal", false, NaN, []);
+}
+function objectEqualityTest() {
+    test("Two empty object should be equal", true, {}, {});
+    test(
+        "Two non-empty object with same value should be equal",
+        true,
+        { a: 1 },
+        { a: 1 },
+    );
+    test("Empty obj and non-empty obj should be unequal", false, { a: 1 }, {});
+    test("Undefined and a empty-object should be unequal", false, {});
+    test("Null and a empty-object should be unequal", false, {});
+    test("NaN and a empty-object should be unequal", false, {});
+}
+function main() {
+    integerEqualityTest();
+    stringEqualityTest();
+    arrayEqualityTest();
+    objectEqualityTest();
+}
+main();
